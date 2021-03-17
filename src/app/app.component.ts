@@ -8,8 +8,15 @@ import { Item, ApiService } from './services/api.service';
 export class AppComponent implements OnInit{
   title = 'firstpwa';
   items: Array<Item>;
+  rotate: boolean = false;
+
   constructor(private apiService: ApiService) {}
   ngOnInit() {
+    var orientation = (screen.orientation || {}).type || ((<any>screen).mozOrientation || <any>screen).msOrientation;
+
+    if (window.matchMedia('(display-mode: standalone)').matches && orientation == undefined) {
+      this.rotate = true;
+    }
     this.fetchData();
   }
   fetchData() {
